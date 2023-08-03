@@ -5,20 +5,18 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
 
 //@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@SpringBootApplication(scanBasePackages = {"controller","service","model", "repository"})
+//@SpringBootApplication(scanBasePackages = {"controller","service","model", "repository"})
+@SpringBootApplication
 @EnableAsync
-public class UserserviceApplication implements CommandLineRunner {
+@EnableWebMvc
+public class UserserviceApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserserviceApplication.class, args);
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		System.out.println("Start App....");
 	}
 }
