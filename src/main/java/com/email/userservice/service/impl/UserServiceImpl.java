@@ -29,9 +29,11 @@ public class UserServiceImpl implements UserService {
 
 
         /* TODO SEND EMAIL TO USER WITH TOKEN */
-        //emailService.sendSimpleMailMessage(user.getName(), user.getEmail(), confirmation.getToken());
-        emailService.sendMimeMessageWithAttachments(user.getName(), user.getEmail(), confirmation.getToken());
+        //SIMPLE MESSAGE emailService.sendSimpleMailMessage(user.getName(), user.getEmail(), confirmation.getToken());
+        //ATTACHMENT FILES emailService.sendMimeMessageWithAttachments(user.getName(), user.getEmail(), confirmation.getToken());
         //emailService.sendMimeMessageWithEmbeddedImages(user.getName(), user.getEmail(), confirmation.getToken());
+        //emailService.sendHtmlEmail(user.getName(), user.getEmail(), confirmation.getToken());
+        emailService.sendHtmlEmailWithEmbeddedFiles(user.getName(), user.getEmail(), confirmation.getToken());
         return user;
     }
 
