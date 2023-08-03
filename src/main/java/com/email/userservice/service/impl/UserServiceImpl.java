@@ -4,6 +4,7 @@ import com.email.userservice.domain.Confirmation;
 import com.email.userservice.domain.User;
 import com.email.userservice.repository.ConfirmationRepository;
 import com.email.userservice.repository.UserRepository;
+import com.email.userservice.service.EmailService;
 import com.email.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ConfirmationRepository confirmationRepository;
+    private final EmailService emailService;
 
     @Override
     public User saveUser(User user) {
@@ -24,6 +26,11 @@ public class UserServiceImpl implements UserService {
 
         Confirmation confirmation = new Confirmation(user);
         confirmationRepository.save(confirmation);
+
+
+        /* TODO SEND EMAIL TO USER WITH TOKEN */
+        //emailService.sendSimpleMailMessage(user.getName(), user.getEmail(), confirmation.getToken());
+        emailService.sendMimeMessageWithAttachments(user.getName(), user.getEmail(), confirmation.getToken());
         return user;
     }
 
