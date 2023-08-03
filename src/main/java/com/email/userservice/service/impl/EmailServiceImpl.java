@@ -69,13 +69,26 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Async
-    public void sendMimeMessageWithEmbeddedImages(String name, String to, String token) {
-
-    }
-
-    @Override
     public void sendMimeMessageWithEmbeddedFiles(String name, String to, String token) {
+        try {
+            MimeMessage message = getMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, UTF_8);
+            helper.setPriority(1);
+            helper.setSubject(NEW_USER_ACCOUNT_VERIFICATION);
+            helper.setFrom(fromEmail);
+            helper.setTo(to);
+            helper.setText(EmailUtils.getEmailMessage(name, host, token));
+            //ADD ATTACHMENTS
+            FileSystemResource testImage = new FileSystemResource(new File(System.getProperty("user.home") + "/Downloads/images/TestImage.jpg"));
+            FileSystemResource testDoc = new FileSystemResource(new File(System.getProperty("user.home") + "/Downloads/images/TestDoc.docx"));
+            helper.addInline(getContentId(testImage.getFilename()), testImage);
+            helper.addInline(getContentId(testDoc.getFilename()), testDoc);
 
+            emailSender.send(message);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
@@ -92,5 +105,9 @@ public class EmailServiceImpl implements EmailService {
 
     private MimeMessage getMimeMessage() {
         return emailSender.createMimeMessage();
+    }
+
+    private String getContentId( String filename){
+        return "<" + filename + ">";
     }
 }
